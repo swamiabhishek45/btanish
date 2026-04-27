@@ -11,7 +11,7 @@ export type ServiceCategory = {
 
 export type GalleryItem = {
   title: string;
-  category: "Hairstyle" | "Interior" | "Manicure" | "Transformation";
+  category: string;
   image: string;
   alt: string;
   description: string;

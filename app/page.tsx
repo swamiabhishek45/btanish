@@ -71,11 +71,11 @@ export default function Home() {
             <div className="grid gap-6">
               <div className="surface-glow rounded-[2rem] border border-white/70 bg-white/84 p-5 shadow-[0_24px_80px_rgba(96,27,68,0.08)]">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-[1.4rem] bg-[var(--color-panel)]">
-                  <Image loading="eager" src={brand.ownerImage} alt="Ravindra Giramkar at B Tanish Salon" fill sizes="20vw" className="object-cover" />
+                  <Image loading="eager" src={brand.featuredNailImage} alt="Signature manicure design at B Tanish Salon" fill sizes="20vw" className="object-cover" />
                 </div>
-                <p className="mt-4 text-xs font-semibold tracking-[0.28em] text-[var(--color-secondary)] uppercase">Founder story</p>
+                <p className="mt-4 text-xs font-semibold tracking-[0.28em] text-[var(--color-secondary)] uppercase">Signature nails</p>
                 <p className="mt-2 text-sm leading-7 text-[var(--color-muted)]">
-                  Ravindra Giramkar brings 18+ years of beauty industry experience to the B Tanish journey.
+                  A closer look at the manicure craft now featured in the home-screen story card.
                 </p>
               </div>
               <div className="surface-glow overflow-hidden rounded-[2rem] border border-white/70 shadow-[0_24px_80px_rgba(96,27,68,0.08)]">
@@ -95,7 +95,7 @@ export default function Home() {
               <Image
                 loading="eager"
                 src={brand.ownerImage}
-                alt="Ravindra Giramkar inside B Tanish Salon"
+                alt="Manicure artistry at B Tanish Salon"
                 width={900}
                 height={1200}
                 className="h-full w-full object-cover"
@@ -127,28 +127,30 @@ export default function Home() {
             title="Hair, skin, nail care, and make-up shaped around real client needs."
             description="The original B Tanish site presents a complete salon experience, from cuts and colour to facials, nail services, and beauty finishing across both Pune branches."
           />
-          <div className="mt-12 grid gap-6 lg:grid-cols-4">
+          <div className="mt-12 grid gap-10 sm:grid-cols-2 xl:grid-cols-4">
             {serviceCategories.map((category, index) => (
               <Reveal key={category.id} delay={index * 80}>
-                <article className="surface-glow overflow-hidden rounded-[2rem] border border-white/70 bg-white shadow-[0_24px_80px_rgba(96,27,68,0.08)]">
-                  <div className="relative h-72">
-                    <Image src={category.image} alt={category.name} fill sizes="(max-width: 1024px) 100vw, 25vw" className="object-cover" />
-                  </div>
-                  <div className="space-y-4 p-6">
-                    <div className="flex items-center justify-between">
-                      <p className="text-xs font-semibold tracking-[0.28em] text-[var(--color-secondary)] uppercase">{category.icon}</p>
-                      <p className="text-xs font-semibold tracking-[0.28em] text-[var(--color-primary)] uppercase">{category.name}</p>
+                <article className="group flex flex-col items-center text-center">
+                  <div className="relative w-full max-w-[15rem]">
+                    <div className="-rotate-[7deg] surface-glow relative aspect-[4/5.3] overflow-hidden rounded-[999px] border border-white/80 bg-white shadow-[0_28px_90px_rgba(96,27,68,0.12)] transition duration-300 group-hover:-rotate-[9deg]">
+                      <Image
+                        src={category.image}
+                        alt={category.name}
+                        fill
+                        sizes="(max-width: 640px) 70vw, (max-width: 1280px) 30vw, 16vw"
+                        className="object-cover transition duration-500 group-hover:scale-105"
+                      />
                     </div>
-                    <h3 className="font-serif text-3xl text-[var(--color-foreground)]">{category.name}</h3>
-                    <p className="text-sm leading-7 text-[var(--color-muted)]">{category.summary}</p>
-                    <ul className="space-y-2 text-sm text-[var(--color-foreground)]">
-                      {category.highlights.map((item) => (
-                        <li key={item} className="flex gap-2">
-                          <span className="text-[var(--color-secondary)]">•</span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="absolute right-2 bottom-5 flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--color-border)] bg-white text-lg text-[var(--color-foreground)] shadow-[0_16px_40px_rgba(96,27,68,0.18)] transition duration-300 group-hover:-translate-y-1">
+                      <span aria-hidden="true">→</span>
+                    </div>
+                  </div>
+                  <div className="mt-5 space-y-2">
+                    <p className="text-xs font-semibold tracking-[0.28em] text-[var(--color-secondary)] uppercase">{category.icon}</p>
+                    <h3 className="font-serif text-[2rem] leading-none text-[var(--color-foreground)]">{category.name}</h3>
+                    <p className="text-xs tracking-[0.08em] text-[var(--color-muted)]">
+                      {category.highlights.length} service{category.highlights.length === 1 ? "" : "s"} available
+                    </p>
                   </div>
                 </article>
               </Reveal>
@@ -175,7 +177,8 @@ export default function Home() {
             label={featuredGallery[0].category}
             title={featuredGallery[0].title}
             description={featuredGallery[0].description}
-            className="lg:min-h-[32rem]"
+            className="lg:min-h-[62rem]"
+            imageWrapperClassName="h-96 lg:h-[50rem]"
           />
           <div className="grid gap-6 sm:grid-cols-2">
             {featuredGallery.slice(1, 5).map((item) => (
@@ -251,20 +254,23 @@ export default function Home() {
           <SectionIntro
             eyebrow="Brand partners"
             title="Trusted product partners already present in your asset set."
-            description="Instead of placeholder brand names, the redesign surfaces the actual partner logos available in `public/Btanish/Brand Partners`."
+            description="Professional product partners featured across the B Tanish salon experience."
             align="center"
           />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {brandPartners.map((partner, index) => (
-              <Reveal key={partner.image} delay={index * 60}>
-                <article className="surface-glow flex min-h-36 items-center justify-center rounded-[1.8rem] border border-white/80 bg-white p-6 shadow-[0_16px_50px_rgba(96,27,68,0.05)]">
-                  <div className="relative h-18 w-full">
-                    <Image src={partner.image} alt={partner.name} fill sizes="220px" className="object-contain" />
+          <Reveal className="brand-marquee-fade mt-12 overflow-hidden rounded-[2.2rem] border border-white/70 bg-white/45 px-2 py-4 shadow-[0_18px_60px_rgba(96,27,68,0.06)]">
+            <div className="brand-marquee gap-3 pr-6">
+              {[...brandPartners, ...brandPartners].map((partner, index) => (
+                <article
+                  key={`${partner.image}-${index}`}
+                  className="flex h-36 w-[17rem] shrink-0 items-center justify-center rounded-[1.8rem] border border-white/35 bg-transparent"
+                >
+                  <div className="relative h-36 w-full">
+                    <Image src={partner.image} alt={partner.name} fill sizes="272px" className="object-contain" />
                   </div>
                 </article>
-              </Reveal>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 

@@ -15,7 +15,7 @@ export function TransformationSlider({
   const [dragging, setDragging] = useState(false);
   const frameRef = useRef<HTMLDivElement | null>(null);
 
-  const updatePosition = (clientY: number) => {
+  const updatePosition = (clientX: number) => {
     const frame = frameRef.current;
 
     if (!frame) {
@@ -23,8 +23,8 @@ export function TransformationSlider({
     }
 
     const rect = frame.getBoundingClientRect();
-    const nextValue = ((clientY - rect.top) / rect.height) * 100;
-    const clamped = Math.max(8, Math.min(92, nextValue));
+    const nextValue = ((clientX - rect.left) / rect.width) * 100;
+    const clamped = Math.max(10, Math.min(90, nextValue));
 
     setPosition(clamped);
   };
@@ -35,7 +35,7 @@ export function TransformationSlider({
     }
 
     function handlePointerMove(event: PointerEvent) {
-      updatePosition(event.clientY);
+      updatePosition(event.clientX);
     }
 
     function handlePointerUp() {
@@ -57,11 +57,7 @@ export function TransformationSlider({
         <div className="surface-glow relative overflow-hidden rounded-[2rem] border border-[color:var(--color-border)] bg-[var(--color-panel)] shadow-[0_30px_90px_rgba(96,27,68,0.1)]">
           <div
             ref={frameRef}
-            className="relative h-[520px] cursor-ns-resize touch-none sm:h-[620px]"
-            onPointerDown={(event) => {
-              updatePosition(event.clientY);
-              setDragging(true);
-            }}
+            className="relative h-[520px] touch-none sm:h-[620px]"
           >
             <Image
               src={transformation.beforeImage}
@@ -72,7 +68,7 @@ export function TransformationSlider({
             />
             <div
               className="absolute inset-0"
-              style={{ clipPath: `inset(${position}% 0 0 0)` }}
+              style={{ clipPath: `inset(0 0 0 ${position}%)` }}
             >
               <Image
                 src={transformation.afterImage}
@@ -83,49 +79,47 @@ export function TransformationSlider({
               />
             </div>
             <div
-              className="absolute inset-x-0 h-0.5 bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.1)]"
-              style={{ top: `${position}%` }}
+              className="absolute top-0 bottom-0 z-20 w-px bg-white/90 shadow-[0_0_0_1px_rgba(140,15,91,0.18),0_0_24px_rgba(255,255,255,0.6)]"
+              style={{ left: `${position}%` }}
+            />
+            <div
+              className="pointer-events-none absolute inset-y-0 z-10 w-[4.5rem] bg-[linear-gradient(90deg,rgba(255,255,255,0.18),transparent)]"
+              style={{ left: `calc(${position}% - 2.25rem)` }}
             >
               <button
                 type="button"
                 aria-label={`Drag to compare before and after for ${transformation.title}`}
                 onPointerDown={(event) => {
-                  event.stopPropagation();
-                  updatePosition(event.clientY);
+                  updatePosition(event.clientX);
                   setDragging(true);
                 }}
-                className="absolute left-1/2 top-1/2 z-20 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 bg-white/92 text-[var(--color-primary)] shadow-lg transition hover:scale-105"
+                onKeyDown={(event) => {
+                  if (event.key === "ArrowLeft") {
+                    event.preventDefault();
+                    setPosition((current) => Math.max(10, current - 4));
+                  }
+
+                  if (event.key === "ArrowRight") {
+                    event.preventDefault();
+                    setPosition((current) => Math.min(90, current + 4));
+                  }
+                }}
+                className="pointer-events-auto absolute top-1/2 left-1/2 z-30 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border border-white/85 bg-white text-[var(--color-primary)] shadow-[0_16px_38px_rgba(27,11,21,0.24)] transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/80"
               >
-                ↕
+                <span className="flex items-center gap-1 text-[0.6rem] leading-none">
+                  <span>‹</span>
+                  <span className="h-3.5 w-px bg-[var(--color-primary)]/35" />
+                  <span>›</span>
+                </span>
               </button>
             </div>
             <div className="absolute left-6 top-6 rounded-full bg-white/85 px-4 py-2 text-xs font-semibold tracking-[0.24em] text-[var(--color-foreground)] uppercase">
               Before
             </div>
-            <div className="absolute left-6 bottom-6 rounded-full bg-[var(--color-primary)]/88 px-4 py-2 text-xs font-semibold tracking-[0.24em] text-white uppercase">
+            <div className="absolute right-6 top-6 rounded-full bg-[var(--color-primary)]/88 px-4 py-2 text-xs font-semibold tracking-[0.24em] text-white uppercase">
               After
             </div>
-            <div className="absolute inset-y-0 right-4 z-20 hidden items-center sm:flex">
-              <input
-                aria-label={`Compare before and after for ${transformation.title}`}
-                type="range"
-                min="0"
-                max="100"
-                value={position}
-                onChange={(event) => setPosition(Number(event.target.value))}
-                className="luxury-range-vertical"
-              />
-            </div>
           </div>
-          <input
-            aria-label={`Compare before and after for ${transformation.title}`}
-            type="range"
-            min="0"
-            max="100"
-            value={position}
-            onChange={(event) => setPosition(Number(event.target.value))}
-            className="luxury-range absolute inset-x-6 bottom-4 z-10 sm:hidden"
-          />
         </div>
       </Reveal>
       <Reveal cascade variant="up">
@@ -140,7 +134,7 @@ export function TransformationSlider({
           </div>
           <div className="self-center">
             <p className="rounded-full border border-[color:var(--color-border-strong)] px-4 py-2 text-xs font-semibold tracking-[0.24em] text-[var(--color-foreground)] uppercase">
-              Drag Up or Down
+              Drag the center handle
             </p>
           </div>
         </div>

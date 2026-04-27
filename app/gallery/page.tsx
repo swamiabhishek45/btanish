@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 
 import { GalleryFilter } from "@/components/gallery-filter";
 import { PageHero, VideoCard } from "@/components/ui";
-import { featureVideos, featuredGallery } from "@/lib/site-data";
+import { getBtanishGalleryItems } from "@/lib/gallery-library";
+import { featureVideos } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -10,16 +11,18 @@ export const metadata: Metadata = {
     "Browse the B Tanish gallery using real hairstyle, manicure, interior, transformation, and video assets from the salon library.",
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const galleryItems = await getBtanishGalleryItems();
+
   return (
     <div>
       <PageHero
         eyebrow="Real work and spaces"
-        title="A gallery built from the actual B Tanish asset library."
-        description="The redesign replaces stock visuals with real hairstyle, manicure, salon interior, and transformation imagery, plus the local video set."
+        title="Every B Tanish image in the local library, gathered in one gallery."
+        description="This page now scans `public/Btanish` directly, so hairstyle, manicure, interiors, transformations, brand assets, and partner visuals all render here automatically."
       />
       <section className="mx-auto max-w-7xl px-6 py-18 lg:px-10">
-        <GalleryFilter items={featuredGallery} />
+        <GalleryFilter items={galleryItems} />
       </section>
       <section className="bg-[var(--color-panel)] py-18">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">

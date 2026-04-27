@@ -6,6 +6,7 @@ export const brand = {
   logo: "/Btanish/btanish.png",
   wordmark: "/Btanish/logo.png",
   ownerImage: "/Btanish/hero2.png",
+  featuredNailImage: "/Btanish/Manicure/2.png",
   backgroundImage: "/Btanish/btanish-bg.jpg",
   colors: {
     plum: "#8c0f5b",

@@ -78,6 +78,7 @@ export function ImageCard({
   title,
   description,
   className = "",
+  imageWrapperClassName = "",
 }: {
   image: string;
   alt: string;
@@ -85,13 +86,14 @@ export function ImageCard({
   title: string;
   description: string;
   className?: string;
+  imageWrapperClassName?: string;
 }) {
   return (
     <Reveal cascade variant="zoom">
       <article
         className={`surface-glow group overflow-hidden rounded-[2rem] border border-[color:var(--color-border)] bg-white shadow-[0_24px_80px_rgba(96,27,68,0.08)] ${className}`}
       >
-        <div className="relative h-72 overflow-hidden">
+        <div className={`relative h-72 overflow-hidden ${imageWrapperClassName}`}>
           <Image
             src={image}
             alt={alt}
@@ -102,9 +104,15 @@ export function ImageCard({
           <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(27,11,21,0.42),transparent_50%)]" />
         </div>
         <div className="motion-copy space-y-3 p-6">
-          <p className="text-xs font-semibold tracking-[0.32em] text-[var(--color-secondary)] uppercase">{label}</p>
-          <h3 className="font-serif text-2xl text-[var(--color-foreground)]">{title}</h3>
-          <p className="text-sm leading-7 text-[var(--color-muted)]">{description}</p>
+          <p className="text-xs font-semibold tracking-[0.32em] text-[var(--color-secondary)] uppercase">
+            {label}
+          </p>
+          <h3 className="font-serif text-2xl text-[var(--color-foreground)]">
+            {title}
+          </h3>
+          <p className="text-sm leading-7 text-[var(--color-muted)]">
+            {description}
+          </p>
         </div>
       </article>
     </Reveal>
