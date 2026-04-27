@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 
 import { SiteShell } from "@/components/site-chrome";
 import { brand } from "@/lib/brand";
@@ -32,6 +33,7 @@ export default function RootLayout({
     <html lang="en" className="h-full scroll-smooth">
       <body className="min-h-full antialiased">
         <SiteShell>{children}</SiteShell>
+        <Analytics />
       </body>
     </html>
   );
